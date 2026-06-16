@@ -239,7 +239,8 @@ body{background:var(--surface-page)}
 .kit-sechead p{color:var(--text-muted);margin-top:8px;max-width:56ch}
 .kit-sechead.is-center p{margin-inline:auto}
 .kit-hero{position:relative;color:#fff;overflow:hidden}
-.kit-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(14,32,56,.55),rgba(14,32,56,.92))}
+.kit-hero__canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.kit-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(14,32,56,.62),rgba(14,32,56,.88));z-index:0}
 .kit-hero__in{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr .8fr;gap:var(--space-7);align-items:center;padding-block:var(--space-9)}
 .kit-hero__copy .eyebrow{color:var(--molten-300)}
 .kit-hero__title{color:#fff;font-size:var(--fs-display-2);font-weight:var(--fw-black);line-height:1.12;margin:14px 0}
@@ -605,8 +606,86 @@ function SecHead({ kicker, title, sub, center }) {
   </div>);
 }
 
+function PipeCanvas() {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let raf;
+    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const COLORS = [
+      'rgba(31,74,140,', 'rgba(242,116,44,', 'rgba(44,93,168,',
+      'rgba(242,183,5,', 'rgba(28,156,216,', 'rgba(255,255,255,',
+    ];
+    const shapes = Array.from({length: 28}, (_, i) => ({
+      x: Math.random(),
+      y: Math.random(),
+      r: 18 + Math.random() * 52,
+      type: Math.random() > 0.45 ? 'circle' : 'rect',
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      alpha: 0.06 + Math.random() * 0.13,
+      lw: 2.5 + Math.random() * 5,
+      vx: (Math.random() - 0.5) * 0.00018,
+      vy: (Math.random() - 0.5) * 0.00018,
+      spin: (Math.random() - 0.5) * 0.004,
+      angle: Math.random() * Math.PI * 2,
+      drift: Math.random() * Math.PI * 2,
+      driftSpeed: 0.0003 + Math.random() * 0.0005,
+    }));
+
+    const draw = (ts) => {
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      shapes.forEach(s => {
+        s.drift += s.driftSpeed;
+        s.angle += s.spin;
+        s.x += s.vx + Math.sin(s.drift) * 0.00012;
+        s.y += s.vy + Math.cos(s.drift * 0.7) * 0.00009;
+        if (s.x < -0.15) s.x = 1.15;
+        if (s.x > 1.15) s.x = -0.15;
+        if (s.y < -0.15) s.y = 1.15;
+        if (s.y > 1.15) s.y = -0.15;
+        const cx = s.x * w, cy = s.y * h;
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(s.angle);
+        ctx.strokeStyle = s.color + s.alpha + ')';
+        ctx.lineWidth = s.lw;
+        ctx.beginPath();
+        if (s.type === 'circle') {
+          ctx.arc(0, 0, s.r, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(0, 0, s.r * 0.55, 0, Math.PI * 2);
+          ctx.strokeStyle = s.color + (s.alpha * 0.5) + ')';
+          ctx.lineWidth = s.lw * 0.6;
+          ctx.stroke();
+        } else {
+          const d = s.r * 1.5;
+          ctx.strokeRect(-d/2, -d/2, d, d);
+          ctx.beginPath();
+          ctx.strokeRect(-d/2 * 0.55, -d/2 * 0.55, d * 0.55, d * 0.55);
+          ctx.strokeStyle = s.color + (s.alpha * 0.45) + ')';
+          ctx.lineWidth = s.lw * 0.5;
+          ctx.stroke();
+        }
+        ctx.restore();
+      });
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); };
+  }, []);
+  return <canvas ref={ref} className="kit-hero__canvas" aria-hidden="true"/>;
+}
+
 function Hero({ t, lang, setPage }) {
   return (<section className="kit-hero bg-blueprint">
+    <PipeCanvas/>
     <div className="container kit-hero__in">
       <div className="kit-hero__copy">
         <Eyebrow>{t.hero.eyebrow}</Eyebrow>
