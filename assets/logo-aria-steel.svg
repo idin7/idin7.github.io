@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="260" height="64" fill="none" role="img" aria-label="Aria Steel">
+  <rect x="4" y="6" width="36" height="36" rx="4" fill="none" stroke="#1f4a8c" stroke-width="5.5"></rect>
+  <circle cx="40" cy="40" r="15" fill="#ffffff" stroke="#f2742c" stroke-width="5.5"></circle>
+  <circle cx="40" cy="40" r="5" fill="#1f4a8c"></circle>
+  <text x="72" y="33" font-family="&#39;IBM Plex Mono&#39;,&#39;Vazirmatn&#39;,monospace" font-size="22" font-weight="700" letter-spacing="1.5" fill="#161b21">ARIA STEEL</text>
+  <text x="73" y="50" font-family="&#39;Vazirmatn&#39;,sans-serif" font-size="11" font-weight="600" letter-spacing="3" fill="#647280">PIPE &amp; PROFILE</text>
+</svg>
