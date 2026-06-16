@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" role="img" aria-label="Aria Steel mark">
+  
+  <rect x="6" y="6" width="38" height="38" rx="4" fill="none" stroke="#1f4a8c" stroke-width="6"></rect>
+  
+  <circle cx="44" cy="44" r="16" fill="#fef3ec" stroke="#f2742c" stroke-width="6"></circle>
+  <circle cx="44" cy="44" r="5.5" fill="#1f4a8c"></circle>
+</svg>
