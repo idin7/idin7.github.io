@@ -239,7 +239,7 @@ body{background:var(--surface-page)}
 .kit-sechead p{color:var(--text-muted);margin-top:8px;max-width:56ch}
 .kit-sechead.is-center p{margin-inline:auto}
 .kit-hero{position:relative;color:#fff;overflow:hidden}
-.kit-hero__canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;overflow:hidden}
+.kit-hero__canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;overflow:hidden;background:linear-gradient(135deg,#1a2a3a 0%,#2c3e50 30%,#1a2a3a 60%,#34495e 100%)}
 .kit-hero__canvas .hero-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.8s ease-in-out}
 .kit-hero__canvas .hero-slide.active{opacity:1}
 @keyframes hero-pan{0%{transform:scale(1.15) translate(0,0)}50%{transform:scale(1.2) translate(-2%,-1.5%)}100%{transform:scale(1.15) translate(0,0)}}
@@ -612,10 +612,10 @@ function SecHead({ kicker, title, sub, center }) {
 
 function PipeCanvas() {
   const images = [
-    'https://images.unsplash.com/photo-1513828583688-c52646db42da?w=1600&q=80',
-    'https://images.unsplash.com/photo-1565608438257-fac3c27beb36?w=1600&q=80',
-    'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=1600&q=80',
-    'https://images.unsplash.com/photo-1504917595217-d4dc5ede4c18?w=1600&q=80',
+    'https://images.pexels.com/photos/2310904/pexels-photo-2310904.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    'https://images.pexels.com/photos/1078884/pexels-photo-1078884.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    'https://images.pexels.com/photos/157827/pexels-photo-157827.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    'https://images.pexels.com/photos/2539462/pexels-photo-2539462.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ];
   const [active, setActive] = React.useState(0);
   React.useEffect(() => {
@@ -626,7 +626,8 @@ function PipeCanvas() {
     <div className="kit-hero__canvas" aria-hidden="true">
       {images.map((src, i) => (
         <img key={i} src={src} alt="" className={`hero-slide${i === active ? ' active' : ''}`}
-          style={{ animationDelay: `${i * 2}s` }} loading={i === 0 ? 'eager' : 'lazy'} />
+          style={{ animationDelay: `${i * 2}s` }} loading={i === 0 ? 'eager' : 'lazy'}
+          onError={e => { e.target.style.display = 'none'; }} />
       ))}
     </div>
   );
