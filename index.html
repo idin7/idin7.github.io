@@ -849,21 +849,7 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   </script>
-  <script src="https://elevenlabs.io/convai-widget/index.js" async></script>
-  <elevenlabs-convai agent-id="agent_3801kw7qcr99ee5tsgpzdsxp3k63" avatar-orb-color-1="#f2742c" avatar-orb-color-2="#2c5da8"></elevenlabs-convai>
-  <script>
-    (function(){
-      function fixLabels(){
-        var w=document.querySelector('elevenlabs-convai');
-        if(!w||!w.shadowRoot)return;
-        w.shadowRoot.querySelectorAll('span,p,div').forEach(function(el){
-          var t=el.textContent.trim();
-          if(t==='Need help?')el.textContent='دستیار فولاد';
-          if(t==='Start a call')el.textContent='شروع مکالمه';
-        });
-      }
-      setInterval(fixLabels,1000);
-    })();
-  </script>
+  <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+  <elevenlabs-convai agent-id="agent_3801kw7qcr99ee5tsgpzdsxp3k63"></elevenlabs-convai>
 </body>
 </html>
