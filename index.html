@@ -851,34 +851,19 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   </script>
   <script src="https://elevenlabs.io/convai-widget/index.js" async></script>
   <elevenlabs-convai agent-id="agent_3801kw7qcr99ee5tsgpzdsxp3k63" avatar-orb-color-1="#f2742c" avatar-orb-color-2="#2c5da8"></elevenlabs-convai>
-  <style>
-    elevenlabs-convai{z-index:9998}
-    elevenlabs-convai::part(widget){direction:rtl}
-  </style>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      function customizeWidget() {
-        const widget = document.querySelector('elevenlabs-convai');
-        if (!widget || !widget.shadowRoot) { setTimeout(customizeWidget, 500); return; }
-        const sr = widget.shadowRoot;
-        const style = document.createElement('style');
-        style.textContent = 'button[class*="trigger"] span, [class*="bubble"] span, [class*="action"] { font-family: Vazirmatn, sans-serif !important; }';
-        sr.appendChild(style);
-        const observer = new MutationObserver(function() {
-          sr.querySelectorAll('span, p, div').forEach(function(el) {
-            if (el.textContent.trim() === 'Need help?') el.textContent = 'دستیار فولاد';
-            if (el.textContent.trim() === 'Start a call') el.textContent = 'شروع مکالمه';
-          });
-          sr.querySelectorAll('a').forEach(function(a) {
-            a.addEventListener('click', function(e) {
-              if (a.href && a.href.includes('elevenlabs')) { e.preventDefault(); e.stopPropagation(); }
-            }, true);
-          });
+    (function(){
+      function fixLabels(){
+        var w=document.querySelector('elevenlabs-convai');
+        if(!w||!w.shadowRoot)return;
+        w.shadowRoot.querySelectorAll('span,p,div').forEach(function(el){
+          var t=el.textContent.trim();
+          if(t==='Need help?')el.textContent='دستیار فولاد';
+          if(t==='Start a call')el.textContent='شروع مکالمه';
         });
-        observer.observe(sr, { childList: true, subtree: true, characterData: true });
       }
-      customizeWidget();
-    });
+      setInterval(fixLabels,1000);
+    })();
   </script>
 </body>
 </html>
